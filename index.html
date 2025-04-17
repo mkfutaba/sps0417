@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>防災偏差値</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        body {
+
+            font-family: sans-serif;
+
+            line-height: 1.6;
+
+            margin: 20px;
+
+            background-color: #f4f4f4;
+
+            color: #333;
+
+        }
+
+
+
+        h1, h2 {
+
+            color: #007bff;
+
+            text-align: center;
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        #start-container, .question-container, #result-container {
+
+            background-color: #fff;
+
+            padding: 20px;
+
+            border-radius: 8px;
+
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        .question-container {
+
+            display: none;
+
+            margin-bottom: 20px;
+
+        }
+
+        .question-container.active {
+
+            display: block;
+
+        }
+
+        #result-container {
+
+            display: none;
+
+            margin-top: 30px;
+
+        }
+
+
+
+        .scale {
+
+            /* display: flex;
+
+            justify-content: space-around; */
+
+            margin-bottom: 10px;
+
+        }
+
+
+
+        .scale label {
+
+            display: flex;
+
+            /* flex-direction: column; */
+
+            align-items: center;
+
+            margin-bottom: 5px;
+
+        }
+
+
+
+        .scale input[type="radio"] {
+
+            margin-right: 10px;
+
+        }
+
+
+
+        button {
+
+            background-color: #007bff;
+
+            color: white;
+
+            padding: 10px 20px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+            transition: background-color 0.3s ease;
+
+            display: block;
+
+            margin: 15px auto;
+
+        }
+
+
+
+        button:hover {
+
+            background-color: #0056b3;
+
+        }
+
+
+
+        #advice {
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            background-color: #e9ecef;
+
+            border-radius: 5px;
+
+        }
+
+
+
+        /* スマートフォン向けのスタイル */
+
+        @media screen and (max-width: 600px) {
+
+            body {
+
+                margin: 10px;
+
+            }
+
+
+
+            .scale {
+
+                /* flex-direction: column;
+
+                align-items: center; */
+
+            }
+
+
+
+            .scale label {
+
+                width: 100%; /* スマートフォンでも幅を調整 */
+
+                justify-content: flex-start; /* 左寄せで配置 */
+
+            }
+
+
+
+            .scale input[type="radio"] {
+
+                margin-right: 10px;
+
+            }
+
+
+
+            button {
+
+                width: 100%;
+
+                margin: 10px auto;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>あなたの防災偏差値を確認しよう</h1>
+
+    <p align="center">（回答がサーバーに保存されることはありません）</p>
+
+    <div id="start-container">
+
+        <p>7つの質問それぞれに、あてはまる選択肢を1つ選んでください。</p>
+
+        <button onclick="nextQuestion(1)">診断開始！</button>
+
+    </div>
+
+
+
+    <div id="question1" class="question-container">
+
+        <h2>質問1：</h2>
+
+        <p>自分の地域の近くで、災害が起きそうな場所（川があふれそうなところや急な斜面、地震が起きやすい場所）を知っている。</p>
+
+        <div class="scale">
+
+            <label><input type="radio" name="q1" value="6">とてもよく知っている</label>
+
+            <label><input type="radio" name="q1" value="5">知っている</label>
+
+            <label><input type="radio" name="q1" value="4">やや知っている</label>
+
+            <label><input type="radio" name="q1" value="3">あまり知らない</label>
+
+            <label><input type="radio" name="q1" value="2">知らない</label>
+
+            <label><input type="radio" name="q1" value="1">全く知らない</label>
+
+        </div>
+
+        <button onclick="nextQuestion(2)">次へ</button>
+
+    </div>
+
+
+
+    <div id="question2" class="question-container">
+
+        <h2>質問2：</h2>
+
+        <p>災害のときにどこに避難するかを、家族や身近な人と確認している。</p>
+
+        <div class="scale">
+
+            <label><input type="radio" name="q2" value="6">とてもよくあてはまる</label>
+
+            <label><input type="radio" name="q2" value="5">あてはまる</label>
+
+            <label><input type="radio" name="q2" value="4">ややあてはまる</label>
+
+            <label><input type="radio" name="q2" value="3">あまりあてはまらない</label>
+
+            <label><input type="radio" name="q2" value="2">あてはまらない</label>
+
+            <label><input type="radio" name="q2" value="1">全くあてはまらない</label>
+
+        </div>
+
+        <button onclick="nextQuestion(3)">次へ</button>
+
+    </div>
+
+
+
+    <div id="question3" class="question-container">
+
+        <h2>質問3：</h2>
+
+        <p>災害が起きたときに、避難するかどうか正しく判断できる。</p>
+
+        <div class="scale">
+
+            <label><input type="radio" name="q3" value="6">とてもよくあてはまる</label>
+
+            <label><input type="radio" name="q3" value="5">あてはまる</label>
+
+            <label><input type="radio" name="q3" value="4">ややあてはまる</label>
+
+            <label><input type="radio" name="q3" value="3">あまりあてはまらない</label>
+
+            <label><input type="radio" name="q3" value="2">あてはまらない</label>
+
+            <label><input type="radio" name="q3" value="1">全くあてはまらない</label>
+
+        </div>
+
+        <button onclick="nextQuestion(4)">次へ</button>
+
+    </div>
+
+
+
+    <div id="question4" class="question-container">
+
+        <h2>質問4：</h2>
+
+        <p>自分の地域で昔どんな災害があったか知っている。</p>
+
+        <div class="scale">
+
+            <label><input type="radio" name="q4" value="6">とてもよく知っている</label>
+
+            <label><input type="radio" name="q4" value="5">知っている</label>
+
+            <label><input type="radio" name="q4" value="4">やや知っている</label>
+
+            <label><input type="radio" name="q4" value="3">あまり知らない</label>
+
+            <label><input type="radio" name="q4" value="2">知らない</label>
+
+            <label><input type="radio" name="q4" value="1">全く知らない</label>
+
+        </div>
+
+        <button onclick="nextQuestion(5)">次へ</button>
+
+    </div>
+
+
+
+    <div id="question5" class="question-container">
+
+        <h2>質問5：</h2>
+
+        <p>災害対策は建物を強くしたり、防波堤を作ったりするだけで十分だと思う。</p>
+
+        <div class="scale">
+
+            <label><input type="radio" name="q5" value="1">とてもよくあてはまる</label>
+
+            <label><input type="radio" name="q5" value="2">あてはまる</label>
+
+            <label><input type="radio" name="q5" value="3">ややあてはまる</label>
+
+            <label><input type="radio" name="q5" value="4">あまりあてはまらない</label>
+
+            <label><input type="radio" name="q5" value="5">あてはまらない</label>
+
+            <label><input type="radio" name="q5" value="6">全くあてはまらない</label>
+
+        </div>
+
+        <button onclick="nextQuestion(6)">次へ</button>
+
+    </div>
+
+
+
+    <div id="question6" class="question-container">
+
+        <h2>質問6：</h2>
+
+        <p>災害はいつ起きてもおかしくないと思う。</p>
+
+        <div class="scale">
+
+            <label><input type="radio" name="q6" value="6">とてもよくあてはまる</label>
+
+            <label><input type="radio" name="q6" value="5">あてはまる</label>
+
+            <label><input type="radio" name="q6" value="4">ややあてはまる</label>
+
+            <label><input type="radio" name="q6" value="3">あまりあてはまらない</label>
+
+            <label><input type="radio" name="q6" value="2">あてはまらない</label>
+
+            <label><input type="radio" name="q6" value="1">全くあてはまらない</label>
+
+        </div>
+
+        <button onclick="nextQuestion(7)">次へ</button>
+
+    </div>
+
+
+
+    <div id="question7" class="question-container">
+
+        <h2>質問7：</h2>
+
+        <p>地震が起きたら、すぐに命を守る行動ができる。</p>
+
+        <div class="scale">
+
+            <label><input type="radio" name="q7" value="6">とてもよくあてはまる</label>
+
+            <label><input type="radio" name="q7" value="5">あてはまる</label>
+
+            <label><input type="radio" name="q7" value="4">ややあてはまる</label>
+
+            <label><input type="radio" name="q7" value="3">あまりあてはまらない</label>
+
+            <label><input type="radio" name="q7" value="2">あてはまらない</label>
+
+            <label><input type="radio" name="q7" value="1">全くあてはまらない</label>
+
+        </div>
+
+        <button onclick="showResult()">いよいよ結果表示</button>
+
+    </div>
+
+
+
+    <div id="result-container">
+
+        <h2>防災偏差値診断結果</h2>
+
+	    <p>※この偏差値は、2025年1月に実施した「15歳以上日本人1152名の調査データ」にあなたの回答をあてはめたときの相対的な指標です。</p>
+
+	    <p id="raw-score" hidden>あなたの得点（42点満点）: <span id="score-value"></span></p>
+
+        <p id="standard-score"></p>
+
+        <p id="percentile"></p>
+
+        <div id="advice">
+
+            <h2>アドバイス</h2>
+
+            <p id="advice-text"></p>
+
+        </div>
+
+        <!--<button onclick="resetSurvey()">最初に戻る</button>-->
+
+    </div>
+
+
+
+    <script>
+
+        const questionContainers = document.querySelectorAll('.question-container');
+
+        const startContainer = document.getElementById('start-container');
+
+        const resultContainer = document.getElementById('result-container');
+
+        let currentQuestion = 0;
+
+        const answers = {};
+
+        const numQuestions = 7;
+
+
+
+         // ページ読み込み時に最初の質問のみを表示
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            startContainer.style.display = 'block'; // 開始コンテナを最初に表示
+
+            questionContainers.forEach(container => container.classList.remove('active')); // すべての質問を非表示
+
+            resultContainer.style.display = 'none'; // 結果コンテナを非表示
+
+            currentQuestion = 0; // 開始前の状態
+
+    
+
+            // 「アンケート開始」ボタンがクリックされたら最初の質問を表示
+
+            const startButton = document.querySelector('#start-container button');
+
+            if (startButton) {
+
+                startButton.addEventListener('click', function() {
+
+                    startContainer.style.display = 'none';
+
+                    if (questionContainers.length > 0) {
+
+                        questionContainers[0].classList.add('active');
+
+                        currentQuestion = 1;
+
+                    }
+
+                });
+
+            }
+
+        });
+
+
+
+
+
+        function nextQuestion(questionNumber) {
+
+            const currentContainer = document.getElementById(`question${currentQuestion}`);
+
+            if (currentQuestion > 0) {
+
+                const selectedAnswer = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+
+                if (!selectedAnswer) {
+
+                    alert('回答を選択してください。');
+
+                    return;
+
+                }
+
+                answers[`q${currentQuestion}`] = parseInt(selectedAnswer.value);
+
+                currentContainer.classList.remove('active');
+
+            } else {
+
+                startContainer.style.display = 'none';
+
+            }
+
+    
+
+            currentQuestion = questionNumber;
+
+            const nextContainer = document.getElementById(`question${currentQuestion}`);
+
+            if (nextContainer) {
+
+                nextContainer.classList.add('active');
+
+            } else if (questionNumber > numQuestions) {
+
+                showResult(); // 最後の質問の次は結果表示
+
+            }
+
+        }
+
+
+
+        function showResult() {
+
+            const currentContainer = document.getElementById(`question${currentQuestion}`);
+
+            const selectedAnswer = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+
+            if (!selectedAnswer) {
+
+                alert('最後の質問にも回答してください。');
+
+                return;
+
+            }
+
+            answers[`q${currentQuestion}`] = parseInt(selectedAnswer.value);
+
+            currentContainer.classList.remove('active');
+
+    
+
+            let rawScore = 0;
+
+            for (let i = 1; i <= numQuestions; i++) {
+
+                rawScore += answers[`q${i}`] || 0;
+
+            }
+
+    
+
+            const scoreValueElement = document.getElementById('score-value');
+
+            const standardScoreElement = document.getElementById('standard-score');
+
+            const percentileElement = document.getElementById('percentile');
+
+            const adviceTextElement = document.getElementById('advice-text');
+
+    
+
+            scoreValueElement.textContent = rawScore;
+
+            displayResults(rawScore, standardScoreElement, percentileElement, adviceTextElement);
+
+    
+
+            resultContainer.style.display = 'block';
+
+        }
+
+    
+
+        function resetSurvey() {
+
+            resultContainer.style.display = 'none';
+
+            questionContainers.forEach(container => container.classList.remove('active'));
+
+            startContainer.style.display = 'block';
+
+            currentQuestion = 0;
+
+            for (let i = 1; i <= numQuestions; i++) {
+
+                const radioButtons = document.querySelectorAll(`input[name="q${i}"]`);
+
+                radioButtons.forEach(radio => radio.checked = false);
+
+            }
+
+            answers = {};
+
+            // 最初に戻ったら最初の質問を表示
+
+            if (questionContainers.length > 0) {
+
+                questionContainers[0].classList.add('active');
+
+                currentQuestion = 1;
+
+            }
+
+        }
+
+
+
+        function displayResults(rawScore, standardScoreElement, percentileElement, adviceTextElement) {
+
+            const meanScore = 26.9; // 例：平均点
+
+            const stdDevScore = 4.58;  // 例：標準偏差
+
+
+
+            // 偏差値を計算
+
+            const standardScore = 50 + (10 * (rawScore - meanScore) / stdDevScore);
+
+            standardScoreElement.textContent = `あなたの防災偏差値: ${standardScore.toFixed(1)}`;
+
+
+
+            // 上位パーセントを計算
+
+            function cdf(x) {
+
+                const a1 = 0.254829592;
+
+                const a2 = -0.284496736;
+
+                const a3 = 1.421413741;
+
+                const a4 = -1.453152027;
+
+                const a5 = 1.061405429;
+
+                const p = 0.2316419;
+
+                const sign = (x < 0) ? -1 : 1;
+
+                x = Math.abs(x) / Math.sqrt(2.0);
+
+                const t = 1.0 / (1.0 + p * x);
+
+                const erf = 1.0 - t * Math.exp(-x * x) * (a1 + t * (a2 + t * (a3 + t * (a4 + t * a5))));
+
+                return 0.5 * (1.0 + sign * erf);
+
+            }
+
+
+
+            function getPercentile(value, mean, stdDev) {
+
+                const z = (value - mean) / stdDev;
+
+                return (1 - cdf(z)) * 100;
+
+            }
+
+
+
+            const percentile = getPercentile(rawScore, meanScore, stdDevScore);
+
+            percentileElement.textContent = `上位からおおよそ ${percentile.toFixed(1)} % の位置にいます。`;
+
+
+
+            // 尺度得点に基づいてアドバイスを生成
+
+            let advice = "";
+
+	        if (rawScore >= meanScore + 2*stdDevScore) {
+
+	            advice = "素晴らしい結果です！あなたは災害に対する備えにおいて、非常に高いレベルに達していると言えるでしょう。この知識と意識があれば、いかなる状況下でも冷静かつ適切な行動が期待できます。しかし、備えは常に最新の情報でアップデートすることが重要です。定期的な防災訓練への参加や、地域のハザードマップの再確認を怠らないようにしましょう。";
+
+	        } else if (rawScore >= meanScore + stdDevScore) {
+
+	            advice = "平均以上の防災意識です！あなたは、災害発生時の基本的な対応を理解していると思われます。この良い習慣を継続しつつ、災害の種類に応じた追加の備えを検討してみるのも良いでしょう。例えば、地震だけでなく、風水害に備えた情報収集や対策なども考えてみましょう。";
+
+	        } else if (rawScore >= meanScore) {
+
+	            advice = "平均的な防災意識です。これは多くの方が持っているレベルと言えますが、災害の規模によっては十分とは言えません。少しでもレベルアップを目指しましょう。まずは、インターネットや自治体のウェブサイトで、自宅でできる簡単な防災対策について調べてみることから始めてみませんか。";
+
+	        } else {
+
+	            advice = "平均を下回る結果です。防災への関心が低いかもしれません。災害はいつ起こるかわからないので、ご自身の安全と大切な人のために、できることから少しずつ備えを始めませんか。お住まいの地域のハザードマップを確認したり、ご家族と避難方法や避難場所について話し合うだけでも大きな安心につながります。すぐにできる対策はたくさんありますよ。";
+
+	        }
+
+            adviceTextElement.textContent = advice;
+
+        }
+
+    </script>
+
+</body>
+
+</html>
